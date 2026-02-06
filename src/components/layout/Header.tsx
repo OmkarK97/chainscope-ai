@@ -86,7 +86,7 @@ export function Header({ securityScore, securityGrade }: HeaderProps) {
           <motion.a
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href="https://github.com/omkarkamalapure/chainscope-ai"
+            href="https://github.com/OmkarK97/chainscope-ai"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center w-9 h-9 rounded-lg text-white/40 hover:text-white/70 hover:bg-white/5 transition-colors"
