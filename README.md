@@ -1,36 +1,161 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ChainScope AI
+
+**AI-Powered Smart Contract Security Auditor**
+
+Paste code. Get streaming security verdicts. Fix vulnerabilities in conversation.
+
+![ChainScope AI](https://img.shields.io/badge/Built%20with-Tambo-blue)
+![Next.js](https://img.shields.io/badge/Next.js-16-black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+
+## Overview
+
+ChainScope AI transforms smart contract security auditing into an interactive, conversational experience. Using Tambo's generative UI capabilities, the AI streams beautiful, animated security findings as you chat — vulnerability cards appear one-by-one, an animated security score meter updates in real-time, and code diffs show exactly how to fix issues.
+
+## Features
+
+- **Streaming Security Verdicts**: Vulnerabilities appear progressively with severity-coded cards
+- **Animated Security Score**: Watch your score update as issues are discovered
+- **Interactive Code Diffs**: See vulnerable vs. fixed code side-by-side
+- **Conversational Fixes**: Ask follow-up questions, get contextual explanations
+- **Suggested Actions**: One-click to explain, fix, or audit another contract
+
+## Tambo Features Used
+
+- ✅ **Streaming UI** - Findings appear progressively
+- ✅ **Stateful Components** - Score updates across conversation
+- ✅ **Zod-Registered Components** - 7 custom components with full schema validation
+- ✅ **Suggested Actions** - Context-aware follow-ups
+- ✅ **Tool Calling** - `analyze_contract`, `explain_vulnerability`, `generate_fix`
+
+## Tech Stack
+
+- **Next.js 16** - App Router with TypeScript
+- **Tambo SDK** - Generative UI streaming
+- **Tailwind CSS** - Styling
+- **Framer Motion** - Animations
+- **Prism React Renderer** - Syntax highlighting
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+- Tambo API key ([Get one here](https://tambo.co))
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/yourusername/chainscope-ai.git
+cd chainscope-ai
+
+# Install dependencies
+npm install
+
+# Copy environment variables
+cp .env.local.example .env.local
+
+# Add your Tambo API key to .env.local
+# NEXT_PUBLIC_TAMBO_API_KEY=your_api_key_here
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+chainscope-ai/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   ├── components/
+│   │   ├── tambo/              # Tambo-registered components
+│   │   │   ├── VulnerabilityCard.tsx
+│   │   │   ├── SecurityScoreMeter.tsx
+│   │   │   ├── CodeDiffViewer.tsx
+│   │   │   ├── AuditSummaryCard.tsx
+│   │   │   ├── FixSuggestionCard.tsx
+│   │   │   ├── ScanningIndicator.tsx
+│   │   │   └── SafeContractCard.tsx
+│   │   ├── ui/                 # Base UI components
+│   │   ├── chat/               # Chat interface
+│   │   └── layout/             # Layout components
+│   ├── lib/
+│   │   ├── tambo/              # Tambo registry and tools
+│   │   └── audit/              # Vulnerability patterns
+│   └── types/                  # TypeScript types
+└── public/                     # Static assets
+```
 
-## Learn More
+## Vulnerability Detection
 
-To learn more about Next.js, take a look at the following resources:
+ChainScope AI detects common smart contract vulnerabilities:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Vulnerability | Severity | Description |
+|---------------|----------|-------------|
+| Reentrancy | Critical | External call before state update |
+| Missing Access Control | Critical | No ownership check on sensitive functions |
+| tx.origin Auth | High | Phishing-vulnerable authentication |
+| Integer Overflow | High | Solidity < 0.8 without SafeMath |
+| Unchecked Returns | Medium | Ignored transfer return values |
+| Unbounded Loops | Medium | DoS via gas exhaustion |
+| Block Property Deps | Low | Reliance on block.timestamp/number |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Sample Contracts
 
-## Deploy on Vercel
+The app includes sample vulnerable contracts for testing:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```solidity
+// VulnerableVault.sol - Contains reentrancy, access control, and overflow issues
+contract VulnerableVault {
+    function withdraw() external {
+        uint256 amount = balances[msg.sender];
+        (bool success, ) = msg.sender.call{value: amount}("");
+        balances[msg.sender] = 0; // State change AFTER call!
+    }
+}
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+### Vercel (Recommended)
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+
+# Add environment variables in Vercel dashboard
+```
+
+### Environment Variables
+
+```env
+NEXT_PUBLIC_TAMBO_API_KEY=your_tambo_api_key
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+## Acknowledgments
+
+- Built with [Tambo](https://tambo.co) - Generative UI SDK
+- Inspired by professional smart contract auditing tools
+- Security patterns from [SWC Registry](https://swcregistry.io/)
+
+---
+
+**Built for "The UI Strikes Back" Hackathon (WeMakeDevs × Tambo AI)**
+
+Created by Omkar
