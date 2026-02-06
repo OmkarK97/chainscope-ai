@@ -18,6 +18,7 @@ export function CodeEditor({
   minHeight = "200px",
 }: CodeEditorProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const lineNumbersRef = useRef<HTMLDivElement>(null);
   const [isFocused, setIsFocused] = useState(false);
 
   // Auto-resize textarea
@@ -31,15 +32,23 @@ export function CodeEditor({
     }
   }, [value, minHeight]);
 
+  // Sync scroll between textarea and line numbers
+  const handleScroll = () => {
+    if (textareaRef.current && lineNumbersRef.current) {
+      lineNumbersRef.current.scrollTop = textareaRef.current.scrollTop;
+    }
+  };
+
   const lineCount = value.split("\n").length || 1;
 
   return (
-    <div
-      className={`relative rounded-xl transition-all duration-200 glass-card ${
-        isFocused
-          ? "!border-cyan-500/30 ring-2 ring-cyan-500/10"
-          : ""
-      }`}
+    <div 
+      className="relative rounded-xl transition-all duration-200"
+      style={{
+        background: 'rgba(255, 255, 255, 0.03)',
+        backdropFilter: 'blur(16px)',
+        WebkitBackdropFilter: 'blur(16px)',
+      }}
     >
       {/* Header */}
       <div className="flex items-center gap-2 px-4 py-2 border-b border-white/5 bg-white/[0.02]">
@@ -50,15 +59,16 @@ export function CodeEditor({
       </div>
 
       {/* Editor Area */}
-      <div className="relative overflow-y-auto" style={{ minHeight, maxHeight: "350px" }}>
+      <div className="relative" style={{ minHeight, maxHeight: "350px" }}>
         {/* Line Numbers */}
         <div
-          className="absolute left-0 top-0 bottom-0 w-10 bg-white/[0.01] border-r border-white/5 select-none pointer-events-none"
+          ref={lineNumbersRef}
+          className="absolute left-0 top-0 bottom-0 w-12 bg-white/[0.01] border-r border-white/5 select-none pointer-events-none overflow-hidden"
           aria-hidden
         >
-          <div className="p-4 text-right">
+          <div className="py-4 pr-3 text-right">
             {(value || " ").split("\n").map((_, i) => (
-              <div key={i} className="text-xs text-white/20 leading-6">
+              <div key={i} className="text-xs text-white/20 font-mono" style={{ lineHeight: "24px" }}>
                 {i + 1}
               </div>
             ))}
@@ -70,13 +80,14 @@ export function CodeEditor({
           ref={textareaRef}
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onScroll={handleScroll}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
           spellCheck={false}
-          className="w-full h-full pl-14 pr-4 py-4 bg-transparent text-sm text-white/70
-            font-mono leading-6 resize-none focus:outline-none placeholder:text-white/20"
-          style={{ minHeight }}
+          className="w-full h-full pl-16 pr-4 py-4 bg-transparent text-sm text-white/70
+            font-mono resize-none placeholder:text-white/20 overflow-y-auto"
+          style={{ minHeight, maxHeight: "350px", lineHeight: "24px" }}
         />
       </div>
     </div>

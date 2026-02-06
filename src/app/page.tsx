@@ -1,58 +1,72 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Header } from "@/components/layout/Header";
+import { Sidebar } from "@/components/layout/Sidebar";
 import { ChatInterface } from "@/components/chat/ChatInterface";
+import { MessageDisplay } from "@/components/chat/MessageDisplay";
 
 export default function Home() {
   return (
-    <div className="flex flex-col h-screen" style={{ background: "#050510" }}>
-      {/* Animated aurora background */}
+    <div className="flex flex-col h-screen" style={{ background: "#0a0a0f" }}>
+      {/* Subtle animated aurora background */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {/* Aurora blobs - slower, more subtle */}
         <div
-          className="aurora-blob"
+          className="aurora-blob w-[500px] h-[500px] bg-purple-500/20"
           style={{
-            width: "600px",
-            height: "600px",
-            top: "-10%",
+            top: "10%",
             left: "20%",
-            background: "radial-gradient(circle, rgba(59, 130, 246, 0.12), transparent 70%)",
             animationDelay: "0s",
           }}
         />
         <div
-          className="aurora-blob"
+          className="aurora-blob w-[600px] h-[600px] bg-cyan-400/15"
           style={{
-            width: "500px",
-            height: "500px",
-            top: "40%",
-            right: "10%",
-            background: "radial-gradient(circle, rgba(34, 211, 238, 0.08), transparent 70%)",
-            animationDelay: "-5s",
+            top: "50%",
+            right: "15%",
+            animationDelay: "8s",
           }}
         />
         <div
-          className="aurora-blob"
+          className="aurora-blob w-[450px] h-[450px] bg-purple-600/18"
           style={{
-            width: "450px",
-            height: "450px",
-            bottom: "5%",
-            left: "10%",
-            background: "radial-gradient(circle, rgba(59, 130, 246, 0.06), transparent 70%)",
-            animationDelay: "-10s",
+            bottom: "15%",
+            left: "40%",
+            animationDelay: "16s",
           }}
         />
-        {/* Grid overlay */}
-        <div className="absolute inset-0 grid-overlay" />
-        {/* Top gradient */}
-        <div className="absolute inset-0 gradient-bg" />
+
+        {/* Subtle grid overlay */}
+        <div className="absolute inset-0 grid-overlay opacity-40" />
       </div>
 
       {/* Main content */}
       <div className="relative z-10 flex flex-col h-full">
         <Header />
+
+        {/* Dashboard Grid Layout - 2 columns only */}
         <main className="flex-1 overflow-hidden">
-          <div className="h-full max-w-4xl mx-auto">
-            <ChatInterface />
+          <div className="h-full grid grid-cols-[360px_1fr] lg:grid-cols-[380px_1fr]">
+            {/* Left Sidebar - Input Panel */}
+            <Sidebar>
+              <div className="flex flex-col h-full p-4">
+                <ChatInterface />
+              </div>
+            </Sidebar>
+
+            {/* Main Content Area - Audit Results */}
+            <motion.div 
+              initial={{ opacity: 0, borderColor: "transparent" }}
+              animate={{ opacity: 1, borderColor: "rgba(255, 255, 255, 0.05)" }}
+              transition={{ duration: 0.5, ease: "easeOut", delay: 0.2 }}
+              className="flex flex-col h-full overflow-hidden bg-transparent border-l"
+              style={{ borderWidth: "1px" }}
+            >
+              <div className="flex-1 overflow-y-auto px-6 py-6" id="audit-results">
+                <MessageDisplay />
+              </div>
+            </motion.div>
           </div>
         </main>
       </div>

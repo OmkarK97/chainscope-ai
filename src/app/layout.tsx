@@ -26,6 +26,11 @@ export const metadata: Metadata = {
     "vulnerability detection",
   ],
   authors: [{ name: "Omkar" }],
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
   openGraph: {
     title: "ChainScope AI | Smart Contract Security Auditor",
     description:
@@ -43,7 +48,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen overflow-hidden`}
-        style={{ backgroundColor: "#050510" }}
+        style={{ backgroundColor: "#0a0a0f" }}
       >
         <TamboProviderWrapper>{children}</TamboProviderWrapper>
       </body>
