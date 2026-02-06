@@ -2,12 +2,13 @@
 
 import { useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useTamboThread } from "@tambo-ai/react";
+import { useTamboThread, useTamboThreadInput } from "@tambo-ai/react";
 import { Loader2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 export function MessageDisplay() {
-  const { thread, isPending } = useTamboThread();
+  const { thread } = useTamboThread();
+  const { isPending } = useTamboThreadInput();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom on new messages
