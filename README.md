@@ -12,13 +12,30 @@ Paste code. Get streaming security verdicts. Fix vulnerabilities in conversation
 
 ChainScope AI transforms smart contract security auditing into an interactive, conversational experience. Using Tambo's generative UI capabilities, the AI streams beautiful, animated security findings as you chat — vulnerability cards appear one-by-one, an animated security score meter updates in real-time, and code diffs show exactly how to fix issues.
 
+### ✨ New UI Features
+
+- **Sidebar Dashboard Layout**: Clean 2-column design with dedicated input panel and results area
+- **Premium Animations**: Staggered entrance animations with blur, scale, and fade effects
+- **Smooth Scrolling**: Hidden scrollbar with maintained scroll functionality
+- **Synchronized Line Numbers**: Code editor with perfectly aligned line numbers that scroll in sync
+- **Polished Borders**: Seamless border continuity between header and sidebar
+- **Interactive Elements**: Hover effects on feature badges and buttons
+
 ## Features
 
+### Core Functionality
 - **Streaming Security Verdicts**: Vulnerabilities appear progressively with severity-coded cards
 - **Animated Security Score**: Watch your score update as issues are discovered
 - **Interactive Code Diffs**: See vulnerable vs. fixed code side-by-side
 - **Conversational Fixes**: Ask follow-up questions, get contextual explanations
 - **Suggested Actions**: One-click to explain, fix, or audit another contract
+
+### UI/UX Excellence
+- **Aceternity-Inspired Animations**: Premium entrance effects with spring easing
+- **Responsive Design**: Optimized for desktop with mobile bottom sheet (coming soon)
+- **Dark Mode First**: Beautiful dark theme with aurora background effects
+- **Glass Morphism**: Subtle backdrop blur and transparency effects
+- **Micro-interactions**: Smooth hover states and transitions throughout
 
 ## Tambo Features Used
 
@@ -72,6 +89,9 @@ Open [http://localhost:3000](http://localhost:3000) to see the app.
 chainscope-ai/
 ├── src/
 │   ├── app/                    # Next.js App Router
+│   │   ├── page.tsx            # Main dashboard with 2-column layout
+│   │   ├── layout.tsx          # Root layout with Tambo provider
+│   │   └── globals.css         # Global styles and animations
 │   ├── components/
 │   │   ├── tambo/              # Tambo-registered components
 │   │   │   ├── VulnerabilityCard.tsx
@@ -82,13 +102,23 @@ chainscope-ai/
 │   │   │   ├── ScanningIndicator.tsx
 │   │   │   └── SafeContractCard.tsx
 │   │   ├── ui/                 # Base UI components
+│   │   │   ├── Button.tsx
+│   │   │   ├── CodeEditor.tsx  # Syntax-highlighted code input
+│   │   │   └── SuggestedActions.tsx
 │   │   ├── chat/               # Chat interface
+│   │   │   ├── ChatInterface.tsx    # Sidebar input panel
+│   │   │   └── MessageDisplay.tsx   # Main content area
 │   │   └── layout/             # Layout components
+│   │       ├── Header.tsx      # Top header with logo & score
+│   │       └── Sidebar.tsx     # Left sidebar wrapper
 │   ├── lib/
 │   │   ├── tambo/              # Tambo registry and tools
+│   │   │   ├── provider.tsx    # Tambo provider setup
+│   │   │   └── registry.tsx    # Component registration
 │   │   └── audit/              # Vulnerability patterns
 │   └── types/                  # TypeScript types
 └── public/                     # Static assets
+    └── logo.svg                # ChainScope AI logo
 ```
 
 ## Vulnerability Detection
